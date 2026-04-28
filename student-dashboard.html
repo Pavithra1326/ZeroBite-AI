@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard – ZeroBite AI</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <span class="sidebar-logo">ZeroBite <span>AI</span></span>
+    <ul class="sidebar-menu">
+      <li><a href="#" class="active" onclick="showSection('overview')"><span class="icon">🏠</span> Overview</a></li>
+      <li><a href="#" onclick="showSection('book')"><span class="icon">🍽️</span> Book Meal</a></li>
+      <li><a href="#" onclick="showSection('menu')"><span class="icon">📋</span> Today's Menu</a></li>
+      <li><a href="#" onclick="showSection('history')"><span class="icon">📅</span> My Bookings</a></li>
+      <li><a href="#" onclick="showSection('waste')"><span class="icon">♻️</span> Waste Tracker</a></li>
+      <li><a href="#" onclick="showSection('feedback')"><span class="icon">⭐</span> Rate Meals</a></li>
+    </ul>
+    <div class="sidebar-user">
+      <div class="user-avatar" id="s-avatar">S</div>
+      <div class="user-info">
+        <p id="s-name">Student</p>
+        <span id="s-hostel">Hostel</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- OVERVIEW -->
+    <div id="sec-overview">
+      <div class="page-header">
+        <h1>Good Morning 👋</h1>
+        <p id="s-greeting">Here's your food summary for today.</p>
+      </div>
+
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="card-icon">🍽️</div>
+          <h3>3</h3>
+          <p>Meals Booked This Week</p>
+        </div>
+        <div class="dash-card orange">
+          <div class="card-icon">♻️</div>
+          <h3>1.2 kg</h3>
+          <p>Food Waste Saved</p>
+        </div>
+        <div class="dash-card">
+          <div class="card-icon">💰</div>
+          <h3>₹340</h3>
+          <p>Savings This Month</p>
+        </div>
+        <div class="dash-card red">
+          <div class="card-icon">⏰</div>
+          <h3>2</h3>
+          <p>Meals Skipped (Uncancelled)</p>
+        </div>
+      </div>
+
+      <!-- AUTO-CONFIRM BANNER -->
+      <div id="auto-confirm-banner" style="background:rgba(46,204,113,0.1); border:1px solid var(--green); border-radius:14px; padding:16px 20px; margin-bottom:24px; align-items:flex-start; gap:14px;">
+        <span style="font-size:1.6rem;">🤖</span>
+        <div>
+          <p style="font-weight:700; font-size:0.95rem; margin-bottom:4px;">Auto-Confirmed Meals</p>
+          <p id="auto-confirm-msg" style="color:var(--muted); font-size:0.85rem; line-height:1.5;"></p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2>📋 Today's Meals & Cutoff Times</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Meal</th>
+              <th>Items</th>
+              <th>Meal Time</th>
+              <th>Cutoff</th>
+              <th>Time Left</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="today-meal-table">
+            <tr>
+              <td>🌅 Breakfast</td>
+              <td>Idli, Sambar, Chutney, Tea</td>
+              <td>7:30 – 9:00 AM</td>
+              <td>7:00 AM</td>
+              <td><span class="countdown" id="cd-breakfast">–</span></td>
+              <td id="status-breakfast"><span class="badge badge-green">Auto-Confirmed</span></td>
+            </tr>
+            <tr>
+              <td>☀️ Lunch</td>
+              <td>Rice, Dal, Sabzi, Roti, Curd</td>
+              <td>12:30 – 2:00 PM</td>
+              <td>11:00 AM</td>
+              <td><span class="countdown" id="cd-lunch">–</span></td>
+              <td id="status-lunch"><span class="badge badge-orange">Pending</span></td>
+            </tr>
+            <tr>
+              <td>🫖 Snacks</td>
+              <td>Bread Pakora, Chai</td>
+              <td>4:30 – 5:30 PM</td>
+              <td>3:30 PM</td>
+              <td><span class="countdown" id="cd-snacks">–</span></td>
+              <td id="status-snacks"><span class="badge badge-orange">Pending</span></td>
+            </tr>
+            <tr>
+              <td>🌙 Dinner</td>
+              <td>Chapati, Paneer Curry, Salad</td>
+              <td>7:30 – 9:00 PM</td>
+              <td>6:30 PM</td>
+              <td><span class="countdown" id="cd-dinner">–</span></td>
+              <td id="status-dinner"><span class="badge badge-orange">Pending</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="color:var(--muted); font-size:0.8rem; margin-top:14px;">
+          🤖 <strong>Auto-Confirm:</strong> If you don't update your booking before the cutoff time, all meals are automatically confirmed for you.
+        </p>
+      </div>
+
+      <div class="section-card">
+        <h2>🌱 Your Waste Reduction This Week</h2>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Monday</span><span>Saved 200g</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Tuesday</span><span>Saved 150g</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:60%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Wednesday</span><span>Wasted 300g</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill red" style="width:40%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Thursday</span><span>Saved 250g</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Friday</span><span>Saved 180g</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill orange" style="width:70%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOK MEAL -->
+    <div id="sec-book" style="display:none;">
+      <div class="page-header">
+        <h1>Book a Meal 🍽️</h1>
+        <p>Pre-book your meals to help reduce food waste.</p>
+      </div>
+
+      <!-- Auto-confirm info box -->
+      <div style="background:rgba(46,204,113,0.08); border:1px solid rgba(46,204,113,0.25); border-radius:12px; padding:14px 18px; margin-bottom:24px; font-size:0.88rem; color:var(--muted); line-height:1.6;">
+        🤖 <strong style="color:var(--text);">Auto-Confirm is ON.</strong>
+        If you don't make a selection before the cutoff, <strong style="color:var(--green);">all meals are automatically confirmed</strong> for you so the chef can plan portions. You can still cancel before the cutoff.
+      </div>
+
+      <div class="section-card">
+        <h2>📅 Select Date & Meals</h2>
+        <div class="form-group" style="max-width:300px; margin-bottom:24px;">
+          <label>Select Date</label>
+          <input type="date" id="book-date" />
+        </div>
+        <div class="order-grid">
+          <div class="meal-option" id="opt-breakfast" onclick="toggleMeal('breakfast')">
+            <div class="meal-icon">🌅</div>
+            <h4>Breakfast</h4>
+            <p>7:30 – 9:00 AM</p>
+            <small id="cutoff-label-breakfast" style="color:var(--muted); font-size:0.75rem; margin-top:6px; display:block;">Cutoff: 7:00 AM</small>
+          </div>
+          <div class="meal-option" id="opt-lunch" onclick="toggleMeal('lunch')">
+            <div class="meal-icon">☀️</div>
+            <h4>Lunch</h4>
+            <p>12:30 – 2:00 PM</p>
+            <small id="cutoff-label-lunch" style="color:var(--muted); font-size:0.75rem; margin-top:6px; display:block;">Cutoff: 11:00 AM</small>
+          </div>
+          <div class="meal-option" id="opt-snacks" onclick="toggleMeal('snacks')">
+            <div class="meal-icon">🫖</div>
+            <h4>Evening Snacks</h4>
+            <p>4:30 – 5:30 PM</p>
+            <small id="cutoff-label-snacks" style="color:var(--muted); font-size:0.75rem; margin-top:6px; display:block;">Cutoff: 3:30 PM</small>
+          </div>
+          <div class="meal-option" id="opt-dinner" onclick="toggleMeal('dinner')">
+            <div class="meal-icon">🌙</div>
+            <h4>Dinner</h4>
+            <p>7:30 – 9:00 PM</p>
+            <small id="cutoff-label-dinner" style="color:var(--muted); font-size:0.75rem; margin-top:6px; display:block;">Cutoff: 6:30 PM</small>
+          </div>
+        </div>
+        <div style="margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn-primary" onclick="confirmBooking()">Confirm Booking</button>
+          <button class="btn-outline" onclick="cancelAllMeals()">Cancel All Meals</button>
+          <button class="btn-outline" onclick="clearMeals()">Clear Selection</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODAY'S MENU -->
+    <div id="sec-menu" style="display:none;">
+      <div class="page-header">
+        <h1>Today's Menu 📋</h1>
+        <p>What's cooking today at your hostel.</p>
+      </div>
+      <div class="section-card">
+        <h2>🌅 Breakfast – 7:30 AM</h2>
+        <table>
+          <thead><tr><th>Item</th><th>Type</th><th>Calories</th></tr></thead>
+          <tbody>
+            <tr><td>Idli (3 pcs)</td><td><span class="badge badge-green">Veg</span></td><td>150 kcal</td></tr>
+            <tr><td>Sambar</td><td><span class="badge badge-green">Veg</span></td><td>80 kcal</td></tr>
+            <tr><td>Coconut Chutney</td><td><span class="badge badge-green">Veg</span></td><td>60 kcal</td></tr>
+            <tr><td>Tea / Coffee</td><td><span class="badge badge-green">Veg</span></td><td>40 kcal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-card">
+        <h2>☀️ Lunch – 12:30 PM</h2>
+        <table>
+          <thead><tr><th>Item</th><th>Type</th><th>Calories</th></tr></thead>
+          <tbody>
+            <tr><td>Steamed Rice</td><td><span class="badge badge-green">Veg</span></td><td>200 kcal</td></tr>
+            <tr><td>Dal Tadka</td><td><span class="badge badge-green">Veg</span></td><td>120 kcal</td></tr>
+            <tr><td>Aloo Sabzi</td><td><span class="badge badge-green">Veg</span></td><td>150 kcal</td></tr>
+            <tr><td>Roti (2 pcs)</td><td><span class="badge badge-green">Veg</span></td><td>180 kcal</td></tr>
+            <tr><td>Curd</td><td><span class="badge badge-green">Veg</span></td><td>60 kcal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-card">
+        <h2>🌙 Dinner – 7:30 PM</h2>
+        <table>
+          <thead><tr><th>Item</th><th>Type</th><th>Calories</th></tr></thead>
+          <tbody>
+            <tr><td>Chapati (3 pcs)</td><td><span class="badge badge-green">Veg</span></td><td>270 kcal</td></tr>
+            <tr><td>Paneer Butter Masala</td><td><span class="badge badge-green">Veg</span></td><td>280 kcal</td></tr>
+            <tr><td>Green Salad</td><td><span class="badge badge-green">Veg</span></td><td>40 kcal</td></tr>
+            <tr><td>Kheer</td><td><span class="badge badge-green">Veg</span></td><td>160 kcal</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MY BOOKINGS -->
+    <div id="sec-history" style="display:none;">
+      <div class="page-header">
+        <h1>My Bookings 📅</h1>
+        <p>Your meal booking history this week.</p>
+      </div>
+      <div class="section-card">
+        <h2>📋 This Week</h2>
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Meal</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody id="booking-table">
+            <tr><td>Mon, Apr 21</td><td>Breakfast, Lunch</td><td><span class="badge badge-green">Attended</span></td><td>–</td></tr>
+            <tr><td>Tue, Apr 22</td><td>Breakfast, Dinner</td><td><span class="badge badge-green">Attended</span></td><td>–</td></tr>
+            <tr><td>Wed, Apr 23</td><td>Lunch</td><td><span class="badge badge-red">Skipped</span></td><td>–</td></tr>
+            <tr><td>Thu, Apr 24</td><td>All Meals</td><td><span class="badge badge-green">Attended</span></td><td>–</td></tr>
+            <tr><td>Fri, Apr 25</td><td>Breakfast, Lunch</td><td><span class="badge badge-green">Attended</span></td><td>–</td></tr>
+            <tr><td>Sat, Apr 26</td><td>Lunch, Dinner</td><td><span class="badge badge-orange">Upcoming</span></td><td><button class="btn-outline" style="padding:6px 14px; font-size:0.8rem;" onclick="showToast('Meal cancelled successfully!', false)">Cancel</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WASTE TRACKER -->
+    <div id="sec-waste" style="display:none;">
+      <div class="page-header">
+        <h1>Waste Tracker ♻️</h1>
+        <p>Your personal contribution to reducing food waste.</p>
+      </div>
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="card-icon">🌱</div>
+          <h3>4.8 kg</h3>
+          <p>Total Food Saved This Month</p>
+        </div>
+        <div class="dash-card orange">
+          <div class="card-icon">🏆</div>
+          <h3>#3</h3>
+          <p>Your Rank in Hostel</p>
+        </div>
+        <div class="dash-card">
+          <div class="card-icon">💧</div>
+          <h3>960 L</h3>
+          <p>Water Saved (Equivalent)</p>
+        </div>
+      </div>
+      <div class="section-card">
+        <h2>📊 Monthly Waste Reduction</h2>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Week 1</span><span>1.2 kg saved</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:75%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Week 2</span><span>0.8 kg saved</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill orange" style="width:50%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Week 3</span><span>1.5 kg saved</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Week 4</span><span>1.3 kg saved</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:80%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div id="sec-feedback" style="display:none;">
+      <div class="page-header">
+        <h1>Rate Your Meals ⭐</h1>
+        <p>Your feedback helps chefs improve and reduce waste.</p>
+      </div>
+      <div class="section-card">
+        <h2>📝 Today's Feedback</h2>
+        <div style="margin-bottom:24px;">
+          <p style="margin-bottom:12px; font-weight:600;">Breakfast – Idli & Sambar</p>
+          <div class="star-row" id="stars-breakfast">
+            <span class="star" onclick="rate('breakfast',1)">★</span>
+            <span class="star" onclick="rate('breakfast',2)">★</span>
+            <span class="star" onclick="rate('breakfast',3)">★</span>
+            <span class="star" onclick="rate('breakfast',4)">★</span>
+            <span class="star" onclick="rate('breakfast',5)">★</span>
+          </div>
+        </div>
+        <div style="margin-bottom:24px;">
+          <p style="margin-bottom:12px; font-weight:600;">Lunch – Rice & Dal</p>
+          <div class="star-row" id="stars-lunch">
+            <span class="star" onclick="rate('lunch',1)">★</span>
+            <span class="star" onclick="rate('lunch',2)">★</span>
+            <span class="star" onclick="rate('lunch',3)">★</span>
+            <span class="star" onclick="rate('lunch',4)">★</span>
+            <span class="star" onclick="rate('lunch',5)">★</span>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:20px;">
+          <label>Additional Comments</label>
+          <input type="text" placeholder="Any suggestions for the chef?" id="feedback-comment" />
+        </div>
+        <button class="btn-primary" onclick="submitFeedback()" style="margin-top:8px;">Submit Feedback</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<style>
+  .star { font-size: 1.8rem; color: rgba(255,255,255,0.2); cursor: pointer; transition: color 0.2s; margin-right: 4px; }
+  .star.active { color: #f1c40f; }
+  .countdown { font-size: 0.82rem; font-weight: 600; }
+  #auto-confirm-banner { display: none; }
+  #auto-confirm-banner.visible { display: flex !important; }
+</style>
+
+<script src="app.js"></script>
+<script>
+  // Load user info
+  const name = localStorage.getItem('zb_name') || 'Student';
+  const hostel = localStorage.getItem('zb_hostel') || 'Hostel';
+  document.getElementById('s-name').textContent = name;
+  document.getElementById('s-hostel').textContent = hostel;
+  document.getElementById('s-avatar').textContent = name[0].toUpperCase();
+  document.getElementById('s-greeting').textContent = `Welcome, ${name}! Here's your food summary for today.`;
+
+  // Set today's date as default
+  document.getElementById('book-date').valueAsDate = new Date();
+
+  // ===== AUTO-CONFIRM SYSTEM =====
+  // Cutoff times for each meal (24h format: [hour, minute])
+  const CUTOFFS = {
+    breakfast: [7, 0],
+    lunch:     [11, 0],
+    snacks:    [15, 30],
+    dinner:    [18, 30]
+  };
+
+  const MEAL_LABELS = {
+    breakfast: '🌅 Breakfast',
+    lunch:     '☀️ Lunch',
+    snacks:    '🫖 Snacks',
+    dinner:    '🌙 Dinner'
+  };
+
+  // Load or initialize today's meal state from localStorage
+  const TODAY = new Date().toISOString().split('T')[0];
+  const storageKey = `zb_meals_${TODAY}`;
+
+  function getMealState() {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) return JSON.parse(saved);
+    // Default: all meals pending (not yet confirmed or cancelled)
+    return { breakfast: 'pending', lunch: 'pending', snacks: 'pending', dinner: 'pending' };
+  }
+
+  function saveMealState(state) {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  }
+
+  // Run auto-confirm: any meal past its cutoff that is still 'pending' → 'auto-confirmed'
+  function runAutoConfirm() {
+    const now = new Date();
+    const state = getMealState();
+    const autoConfirmed = [];
+
+    Object.keys(CUTOFFS).forEach(meal => {
+      if (state[meal] === 'pending') {
+        const [h, m] = CUTOFFS[meal];
+        const cutoff = new Date();
+        cutoff.setHours(h, m, 0, 0);
+        if (now >= cutoff) {
+          state[meal] = 'auto-confirmed';
+          autoConfirmed.push(MEAL_LABELS[meal]);
+        }
+      }
+    });
+
+    saveMealState(state);
+
+    if (autoConfirmed.length > 0) {
+      const banner = document.getElementById('auto-confirm-banner');
+      banner.classList.add('visible');
+      document.getElementById('auto-confirm-msg').textContent =
+        `The following meals were auto-confirmed because the cutoff passed before you updated your preference: ${autoConfirmed.join(', ')}. You can still cancel upcoming meals before their cutoff.`;
+    }
+
+    return state;
+  }
+
+  // Render status badges in the overview table
+  function renderMealStatuses(state) {
+    const badgeMap = {
+      'auto-confirmed': '<span class="badge badge-green">🤖 Auto-Confirmed</span>',
+      'confirmed':      '<span class="badge badge-green">✅ Confirmed</span>',
+      'cancelled':      '<span class="badge badge-red">❌ Cancelled</span>',
+      'pending':        '<span class="badge badge-orange">⏳ Pending</span>'
+    };
+    Object.keys(state).forEach(meal => {
+      const el = document.getElementById('status-' + meal);
+      if (el) el.innerHTML = badgeMap[state[meal]] || '';
+    });
+  }
+
+  // Countdown timers
+  function updateCountdowns() {
+    const now = new Date();
+    const state = getMealState();
+
+    Object.keys(CUTOFFS).forEach(meal => {
+      const el = document.getElementById('cd-' + meal);
+      if (!el) return;
+
+      if (state[meal] !== 'pending') {
+        el.textContent = '–';
+        el.style.color = 'var(--muted)';
+        return;
+      }
+
+      const [h, m] = CUTOFFS[meal];
+      const cutoff = new Date();
+      cutoff.setHours(h, m, 0, 0);
+      const diff = cutoff - now;
+
+      if (diff <= 0) {
+        el.textContent = 'Cutoff passed';
+        el.style.color = 'var(--danger)';
+      } else {
+        const hrs  = Math.floor(diff / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        el.textContent = hrs > 0
+          ? `${hrs}h ${mins}m left`
+          : mins > 0
+          ? `${mins}m ${secs}s left`
+          : `${secs}s left`;
+        el.style.color = diff < 1800000 ? 'var(--orange)' : 'var(--green)';
+      }
+    });
+  }
+
+  // Also grey out meal options in Book section if cutoff passed
+  function updateBookSectionCutoffs() {
+    const now = new Date();
+    const state = getMealState();
+    Object.keys(CUTOFFS).forEach(meal => {
+      const [h, m] = CUTOFFS[meal];
+      const cutoff = new Date(); cutoff.setHours(h, m, 0, 0);
+      const label = document.getElementById('cutoff-label-' + meal);
+      const opt   = document.getElementById('opt-' + meal);
+      if (!label || !opt) return;
+
+      if (state[meal] === 'cancelled') {
+        label.textContent = '❌ Cancelled by you';
+        label.style.color = 'var(--danger)';
+        opt.style.opacity = '0.5';
+        opt.style.pointerEvents = 'none';
+      } else if (now >= cutoff) {
+        label.textContent = state[meal] === 'auto-confirmed'
+          ? '🤖 Auto-confirmed'
+          : '⏰ Cutoff passed';
+        label.style.color = state[meal] === 'auto-confirmed' ? 'var(--green)' : 'var(--danger)';
+        opt.style.opacity = '0.5';
+        opt.style.pointerEvents = 'none';
+      } else {
+        const [hh, mm] = CUTOFFS[meal];
+        label.textContent = `Cutoff: ${hh % 12 || 12}:${String(mm).padStart(2,'0')} ${hh < 12 ? 'AM' : 'PM'}`;
+        label.style.color = 'var(--muted)';
+        opt.style.opacity = '1';
+        opt.style.pointerEvents = 'auto';
+      }
+    });
+  }
+
+  // Init on load
+  const mealState = runAutoConfirm();
+  renderMealStatuses(mealState);
+  updateCountdowns();
+  updateBookSectionCutoffs();
+
+  // Refresh every second
+  setInterval(() => {
+    const s = runAutoConfirm();
+    renderMealStatuses(s);
+    updateCountdowns();
+    updateBookSectionCutoffs();
+  }, 1000);
+
+  // ===== SECTION NAV =====
+  function showSection(id) {
+    ['overview','book','menu','history','waste','feedback'].forEach(s => {
+      document.getElementById('sec-' + s).style.display = s === id ? 'block' : 'none';
+    });
+    document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+    event.target.closest('a').classList.add('active');
+  }
+
+  // ===== MEAL BOOKING =====
+  const selected = new Set();
+
+  function toggleMeal(meal) {
+    const el = document.getElementById('opt-' + meal);
+    if (selected.has(meal)) { selected.delete(meal); el.classList.remove('selected'); }
+    else { selected.add(meal); el.classList.add('selected'); }
+  }
+
+  function clearMeals() {
+    selected.clear();
+    ['breakfast','lunch','snacks','dinner'].forEach(m => {
+      const el = document.getElementById('opt-' + m);
+      if (el) el.classList.remove('selected');
+    });
+  }
+
+  function confirmBooking() {
+    if (selected.size === 0) { showToast('Please select at least one meal.', true); return; }
+    const date = document.getElementById('book-date').value;
+    const state = getMealState();
+    selected.forEach(meal => { state[meal] = 'confirmed'; });
+    saveMealState(state);
+    renderMealStatuses(state);
+    showToast(`✅ Confirmed: ${[...selected].map(m => MEAL_LABELS[m]).join(', ')} for ${date}`, false);
+    clearMeals();
+    updateBookSectionCutoffs();
+  }
+
+  function cancelAllMeals() {
+    const now = new Date();
+    const state = getMealState();
+    const cancelled = [];
+    Object.keys(CUTOFFS).forEach(meal => {
+      const [h, m] = CUTOFFS[meal];
+      const cutoff = new Date(); cutoff.setHours(h, m, 0, 0);
+      if (now < cutoff && state[meal] !== 'cancelled') {
+        state[meal] = 'cancelled';
+        cancelled.push(MEAL_LABELS[meal]);
+      }
+    });
+    saveMealState(state);
+    renderMealStatuses(state);
+    updateBookSectionCutoffs();
+    if (cancelled.length > 0) {
+      showToast(`❌ Cancelled: ${cancelled.join(', ')}`, false);
+    } else {
+      showToast('No upcoming meals to cancel (cutoff already passed).', true);
+    }
+  }
+
+  // ===== FEEDBACK =====
+  function rate(meal, val) {
+    const stars = document.querySelectorAll(`#stars-${meal} .star`);
+    stars.forEach((s, i) => s.classList.toggle('active', i < val));
+  }
+
+  function submitFeedback() {
+    showToast('Thank you for your feedback! 🙏', false);
+    document.getElementById('feedback-comment').value = '';
+  }
+</script>
+</body>
+</html>
