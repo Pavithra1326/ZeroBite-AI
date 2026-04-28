@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – ZeroBite AI</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="login-page">
+    <div class="login-container">
+      <div class="login-logo">ZeroBite <span>AI</span></div>
+      <p class="login-subtitle">Smart food management for hostels & PGs</p>
+
+      <!-- Role Tabs -->
+      <div class="role-tabs">
+        <button class="role-tab active" id="tab-student" onclick="switchRole('student')">🎓 Student</button>
+        <button class="role-tab chef-tab" id="tab-chef" onclick="switchRole('chef')">👨‍🍳 Chef</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" onsubmit="handleLogin(event)">
+
+        <!-- Student Fields -->
+        <div id="student-fields">
+          <div class="form-group">
+            <label>Hostel / PG Name</label>
+            <select id="student-hostel">
+              <option value="">Select your hostel or PG</option>
+              <option>Sunrise Hostel</option>
+              <option>Green Valley PG</option>
+              <option>City Boys Hostel</option>
+              <option>Campus PG</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Student ID / Email</label>
+            <input type="text" id="student-id" placeholder="e.g. STU2024001 or email@college.edu" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="student-pass" placeholder="Enter your password" />
+          </div>
+        </div>
+
+        <!-- Chef Fields -->
+        <div id="chef-fields" style="display:none;">
+          <div class="form-group">
+            <label>Hostel / PG Name</label>
+            <select id="chef-hostel">
+              <option value="">Select your hostel or PG</option>
+              <option>Sunrise Hostel</option>
+              <option>Green Valley PG</option>
+              <option>City Boys Hostel</option>
+              <option>Campus PG</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Chef ID / Email</label>
+            <input type="text" id="chef-id" placeholder="e.g. CHF001 or chef@hostel.com" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="chef-pass" placeholder="Enter your password" />
+          </div>
+        </div>
+
+        <button type="submit" class="login-btn" id="login-btn">Login as Student</button>
+      </form>
+
+      <div class="divider">or</div>
+
+      <div class="login-footer">
+        Don't have an account? <a href="#" onclick="showToast('Contact your hostel admin to register.', false)">Register here</a>
+      </div>
+      <div class="login-footer" style="margin-top:10px;">
+        <a href="index.html">← Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+  <script>
+    // Pre-select role from URL param
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('role') === 'chef') switchRole('chef');
+
+    function switchRole(role) {
+      const isChef = role === 'chef';
+      document.getElementById('student-fields').style.display = isChef ? 'none' : 'block';
+      document.getElementById('chef-fields').style.display = isChef ? 'block' : 'none';
+      document.getElementById('tab-student').classList.toggle('active', !isChef);
+      document.getElementById('tab-chef').classList.toggle('active', isChef);
+      const btn = document.getElementById('login-btn');
+      btn.textContent = isChef ? 'Login as Chef' : 'Login as Student';
+      btn.className = isChef ? 'login-btn chef-btn' : 'login-btn';
+      window._role = role;
+    }
+
+    window._role = 'student';
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const role = window._role;
+
+      if (role === 'student') {
+        const hostel = document.getElementById('student-hostel').value;
+        const id = document.getElementById('student-id').value.trim();
+        const pass = document.getElementById('student-pass').value;
+        if (!hostel || !id || !pass) {
+          showToast('Please fill in all fields.', true);
+          return;
+        }
+        // Demo: any credentials work
+        localStorage.setItem('zb_role', 'student');
+        localStorage.setItem('zb_name', id.split('@')[0] || id);
+        localStorage.setItem('zb_hostel', hostel);
+        showToast('Welcome back! Redirecting...', false);
+        setTimeout(() => window.location.href = 'student-dashboard.html', 1200);
+      } else {
+        const hostel = document.getElementById('chef-hostel').value;
+        const id = document.getElementById('chef-id').value.trim();
+        const pass = document.getElementById('chef-pass').value;
+        if (!hostel || !id || !pass) {
+          showToast('Please fill in all fields.', true);
+          return;
+        }
+        localStorage.setItem('zb_role', 'chef');
+        localStorage.setItem('zb_name', id.split('@')[0] || id);
+        localStorage.setItem('zb_hostel', hostel);
+        showToast('Welcome, Chef! Redirecting...', false);
+        setTimeout(() => window.location.href = 'chef-dashboard.html', 1200);
+      }
+    }
+  </script>
+</body>
+</html>

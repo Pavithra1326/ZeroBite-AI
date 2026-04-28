@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chef Dashboard – ZeroBite AI</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <span class="sidebar-logo">ZeroBite <span>AI</span></span>
+    <ul class="sidebar-menu">
+      <li><a href="#" class="active" onclick="showSection('overview')"><span class="icon">🏠</span> Overview</a></li>
+      <li><a href="#" onclick="showSection('bookings')"><span class="icon">📊</span> Today's Bookings</a></li>
+      <li><a href="#" onclick="showSection('menu')"><span class="icon">📋</span> Manage Menu</a></li>
+      <li><a href="#" onclick="showSection('waste')"><span class="icon">♻️</span> Waste Report</a></li>
+      <li><a href="#" onclick="showSection('leftovers')"><span class="icon">🥡</span> Leftovers</a></li>
+      <li><a href="#" onclick="showSection('alerts')"><span class="icon">🔔</span> Alerts</a></li>
+    </ul>
+    <div class="sidebar-user">
+      <div class="user-avatar chef" id="c-avatar">C</div>
+      <div class="user-info">
+        <p id="c-name">Chef</p>
+        <span id="c-hostel">Hostel</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- OVERVIEW -->
+    <div id="sec-overview">
+      <div class="page-header">
+        <h1>Chef Dashboard 👨‍🍳</h1>
+        <p id="c-greeting">Manage meals and reduce waste today.</p>
+      </div>
+
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="card-icon">🎓</div>
+          <h3 id="total-students">42</h3>
+          <p>Students Booked Today</p>
+        </div>
+        <div class="dash-card orange">
+          <div class="card-icon">🍽️</div>
+          <h3>126</h3>
+          <p>Total Meals to Prepare</p>
+        </div>
+        <div class="dash-card">
+          <div class="card-icon">♻️</div>
+          <h3>8.4 kg</h3>
+          <p>Waste Prevented This Week</p>
+        </div>
+        <div class="dash-card red">
+          <div class="card-icon">⚠️</div>
+          <h3>3</h3>
+          <p>No-Shows Today</p>
+        </div>
+      </div>
+
+      <!-- Meal Counts -->
+      <div class="section-card">
+        <h2>📊 Today's Meal Booking Count</h2>
+        <table>
+          <thead>
+            <tr><th>Meal</th><th>Booked</th><th>Capacity</th><th>Portions to Cook</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🌅 Breakfast</td>
+              <td>38</td>
+              <td>60</td>
+              <td><strong>38 portions</strong></td>
+              <td><span class="badge badge-green">Ready</span></td>
+            </tr>
+            <tr>
+              <td>☀️ Lunch</td>
+              <td>45</td>
+              <td>60</td>
+              <td><strong>45 portions</strong></td>
+              <td><span class="badge badge-orange">Prep in Progress</span></td>
+            </tr>
+            <tr>
+              <td>🫖 Snacks</td>
+              <td>22</td>
+              <td>60</td>
+              <td><strong>22 portions</strong></td>
+              <td><span class="badge badge-red">Not Started</span></td>
+            </tr>
+            <tr>
+              <td>🌙 Dinner</td>
+              <td>40</td>
+              <td>60</td>
+              <td><strong>40 portions</strong></td>
+              <td><span class="badge badge-red">Not Started</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Waste Bars -->
+      <div class="section-card">
+        <h2>🌱 Waste Reduction This Week</h2>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Monday</span><span>2.1 kg saved</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Tuesday</span><span>1.8 kg saved</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:72%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Wednesday</span><span>0.9 kg wasted</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill red" style="width:36%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Thursday</span><span>2.4 kg saved</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:96%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Friday</span><span>1.2 kg saved</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill orange" style="width:48%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODAY'S BOOKINGS -->
+    <div id="sec-bookings" style="display:none;">
+      <div class="page-header">
+        <h1>Today's Bookings 📊</h1>
+        <p>Real-time meal booking data from students.</p>
+      </div>
+      <div class="section-card">
+        <h2>🎓 Student Booking List</h2>
+        <table>
+          <thead>
+            <tr><th>Student</th><th>Room</th><th>Breakfast</th><th>Lunch</th><th>Snacks</th><th>Dinner</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Arjun K.</td><td>101</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td>–</td><td><span class="badge badge-green">✓</span></td></tr>
+            <tr><td>Priya S.</td><td>102</td><td><span class="badge badge-green">✓</span></td><td>–</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+            <tr><td>Rahul M.</td><td>103</td><td>–</td><td><span class="badge badge-green">✓</span></td><td>–</td><td><span class="badge badge-green">✓</span></td></tr>
+            <tr><td>Sneha R.</td><td>104</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td>–</td></tr>
+            <tr><td>Vikram T.</td><td>105</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td>–</td><td><span class="badge badge-green">✓</span></td></tr>
+            <tr><td>Ananya P.</td><td>106</td><td>–</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-card">
+        <h2>🤖 AI Portion Suggestion</h2>
+        <table>
+          <thead><tr><th>Meal</th><th>Bookings</th><th>Suggested Portions</th><th>Buffer</th></tr></thead>
+          <tbody>
+            <tr><td>Breakfast</td><td>38</td><td>40</td><td>+2 (5%)</td></tr>
+            <tr><td>Lunch</td><td>45</td><td>47</td><td>+2 (4%)</td></tr>
+            <tr><td>Snacks</td><td>22</td><td>23</td><td>+1 (5%)</td></tr>
+            <tr><td>Dinner</td><td>40</td><td>42</td><td>+2 (5%)</td></tr>
+          </tbody>
+        </table>
+        <p style="color:var(--muted); font-size:0.82rem; margin-top:12px;">🤖 AI adds a small buffer to account for last-minute bookings while minimizing waste.</p>
+      </div>
+    </div>
+
+    <!-- MANAGE MENU -->
+    <div id="sec-menu" style="display:none;">
+      <div class="page-header">
+        <h1>Manage Menu 📋</h1>
+        <p>Plan and publish this week's menu.</p>
+      </div>
+      <div class="section-card">
+        <h2>✏️ Update Today's Menu</h2>
+        <div class="form-group">
+          <label>Breakfast Items</label>
+          <input type="text" id="menu-breakfast" value="Idli, Sambar, Coconut Chutney, Tea" />
+        </div>
+        <div class="form-group">
+          <label>Lunch Items</label>
+          <input type="text" id="menu-lunch" value="Rice, Dal Tadka, Aloo Sabzi, Roti, Curd" />
+        </div>
+        <div class="form-group">
+          <label>Evening Snacks</label>
+          <input type="text" id="menu-snacks" value="Bread Pakora, Chai" />
+        </div>
+        <div class="form-group">
+          <label>Dinner Items</label>
+          <input type="text" id="menu-dinner" value="Chapati, Paneer Butter Masala, Salad, Kheer" />
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
+          <button class="btn-primary" onclick="publishMenu()">Publish Menu</button>
+          <button class="btn-outline" onclick="showToast('Menu saved as draft.', false)">Save Draft</button>
+        </div>
+      </div>
+      <div class="section-card">
+        <h2>📅 Weekly Menu Overview</h2>
+        <table>
+          <thead><tr><th>Day</th><th>Breakfast</th><th>Lunch</th><th>Dinner</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Monday</td><td>Poha, Tea</td><td>Rice, Rajma</td><td>Roti, Dal Makhani</td><td><span class="badge badge-green">Published</span></td></tr>
+            <tr><td>Tuesday</td><td>Upma, Coffee</td><td>Rice, Sambar</td><td>Chapati, Palak Paneer</td><td><span class="badge badge-green">Published</span></td></tr>
+            <tr><td>Wednesday</td><td>Paratha, Curd</td><td>Biryani, Raita</td><td>Roti, Chana Masala</td><td><span class="badge badge-green">Published</span></td></tr>
+            <tr><td>Thursday</td><td>Idli, Sambar</td><td>Rice, Dal</td><td>Chapati, Paneer</td><td><span class="badge badge-orange">Draft</span></td></tr>
+            <tr><td>Friday</td><td>Bread, Omelette</td><td>Fried Rice, Manchurian</td><td>Roti, Mix Veg</td><td><span class="badge badge-red">Not Set</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WASTE REPORT -->
+    <div id="sec-waste" style="display:none;">
+      <div class="page-header">
+        <h1>Waste Report ♻️</h1>
+        <p>Track and reduce food waste across all meals.</p>
+      </div>
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="card-icon">🌱</div>
+          <h3>32 kg</h3>
+          <p>Total Waste Prevented This Month</p>
+        </div>
+        <div class="dash-card orange">
+          <div class="card-icon">📉</div>
+          <h3>67%</h3>
+          <p>Waste Reduction vs Last Month</p>
+        </div>
+        <div class="dash-card red">
+          <div class="card-icon">🗑️</div>
+          <h3>4.2 kg</h3>
+          <p>Food Wasted This Week</p>
+        </div>
+      </div>
+      <div class="section-card">
+        <h2>📊 Waste by Meal Type (This Month)</h2>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Breakfast</span><span>1.2 kg wasted</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:20%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Lunch</span><span>2.1 kg wasted</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill orange" style="width:35%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Snacks</span><span>0.4 kg wasted</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill" style="width:8%"></div></div>
+        </div>
+        <div class="waste-bar-wrap">
+          <div class="waste-bar-label"><span>Dinner</span><span>0.5 kg wasted</span></div>
+          <div class="waste-bar"><div class="waste-bar-fill red" style="width:10%"></div></div>
+        </div>
+      </div>
+      <div class="section-card">
+        <h2>🤖 AI Recommendations</h2>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:12px;">
+          <li style="background:rgba(46,204,113,0.08); border:1px solid rgba(46,204,113,0.2); border-radius:10px; padding:14px 16px; font-size:0.9rem;">
+            💡 <strong>Reduce lunch rice portions by 10%</strong> — 8 students consistently leave rice on their plates.
+          </li>
+          <li style="background:rgba(230,126,34,0.08); border:1px solid rgba(230,126,34,0.2); border-radius:10px; padding:14px 16px; font-size:0.9rem;">
+            💡 <strong>Friday dinner has 30% no-shows</strong> — Consider reducing portions or sending reminders.
+          </li>
+          <li style="background:rgba(46,204,113,0.08); border:1px solid rgba(46,204,113,0.2); border-radius:10px; padding:14px 16px; font-size:0.9rem;">
+            💡 <strong>Breakfast waste is minimal</strong> — Great job! Idli portions are well-calibrated.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LEFTOVERS -->
+    <div id="sec-leftovers" style="display:none;">
+      <div class="page-header">
+        <h1>Leftover Management 🥡</h1>
+        <p>Track and redistribute leftover food smartly.</p>
+      </div>
+      <div class="section-card">
+        <h2>📦 Today's Leftovers</h2>
+        <table>
+          <thead><tr><th>Item</th><th>Quantity</th><th>Meal</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Sambar</td><td>1.5 L</td><td>Breakfast</td>
+              <td><button class="btn-outline" style="padding:6px 14px; font-size:0.8rem;" onclick="showToast('Sambar marked for redistribution!', false)">Redistribute</button></td>
+            </tr>
+            <tr>
+              <td>Dal Tadka</td><td>800 ml</td><td>Lunch</td>
+              <td><button class="btn-outline" style="padding:6px 14px; font-size:0.8rem;" onclick="showToast('Dal marked for redistribution!', false)">Redistribute</button></td>
+            </tr>
+            <tr>
+              <td>Rice</td><td>600 g</td><td>Lunch</td>
+              <td><button class="btn-outline" style="padding:6px 14px; font-size:0.8rem;" onclick="showToast('Rice marked for composting.', false)">Compost</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-card">
+        <h2>📋 Log New Leftover</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="form-group">
+            <label>Food Item</label>
+            <input type="text" id="leftover-item" placeholder="e.g. Chapati" />
+          </div>
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="text" id="leftover-qty" placeholder="e.g. 500g or 1L" />
+          </div>
+          <div class="form-group">
+            <label>Meal</label>
+            <select id="leftover-meal">
+              <option>Breakfast</option>
+              <option>Lunch</option>
+              <option>Snacks</option>
+              <option>Dinner</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Action</label>
+            <select id="leftover-action">
+              <option>Redistribute</option>
+              <option>Compost</option>
+              <option>Store for Next Meal</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="logLeftover()" style="margin-top:8px;">Log Leftover</button>
+      </div>
+    </div>
+
+    <!-- ALERTS -->
+    <div id="sec-alerts" style="display:none;">
+      <div class="page-header">
+        <h1>Alerts & Notifications 🔔</h1>
+        <p>Stay on top of meal bookings and waste alerts.</p>
+      </div>
+      <div class="section-card">
+        <h2>🔔 Recent Alerts</h2>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="background:rgba(46,204,113,0.08); border-left:4px solid var(--green); border-radius:8px; padding:14px 16px;">
+            <p style="font-size:0.9rem; font-weight:600;">✅ Lunch booking count finalized</p>
+            <p style="font-size:0.8rem; color:var(--muted); margin-top:4px;">45 students booked lunch today. Prepare 47 portions. — 10:00 AM</p>
+          </div>
+          <div style="background:rgba(230,126,34,0.08); border-left:4px solid var(--orange); border-radius:8px; padding:14px 16px;">
+            <p style="font-size:0.9rem; font-weight:600;">⚠️ 3 students cancelled dinner last minute</p>
+            <p style="font-size:0.8rem; color:var(--muted); margin-top:4px;">Adjust dinner portions accordingly. — 6:45 PM</p>
+          </div>
+          <div style="background:rgba(231,76,60,0.08); border-left:4px solid var(--danger); border-radius:8px; padding:14px 16px;">
+            <p style="font-size:0.9rem; font-weight:600;">🗑️ High waste detected on Wednesday</p>
+            <p style="font-size:0.8rem; color:var(--muted); margin-top:4px;">Lunch waste was 2.1 kg. Consider reducing rice portions. — Yesterday</p>
+          </div>
+          <div style="background:rgba(46,204,113,0.08); border-left:4px solid var(--green); border-radius:8px; padding:14px 16px;">
+            <p style="font-size:0.9rem; font-weight:600;">🏆 Waste reduction milestone reached!</p>
+            <p style="font-size:0.8rem; color:var(--muted); margin-top:4px;">Your hostel has saved 30 kg of food this month. — 2 days ago</p>
+          </div>
+        </div>
+      </div>
+      <div class="section-card">
+        <h2>⚙️ Alert Settings</h2>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <label style="display:flex; align-items:center; gap:12px; cursor:pointer; font-size:0.9rem;">
+            <input type="checkbox" checked style="width:18px; height:18px; accent-color:var(--green);" />
+            Notify when booking count is finalized
+          </label>
+          <label style="display:flex; align-items:center; gap:12px; cursor:pointer; font-size:0.9rem;">
+            <input type="checkbox" checked style="width:18px; height:18px; accent-color:var(--green);" />
+            Alert on last-minute cancellations
+          </label>
+          <label style="display:flex; align-items:center; gap:12px; cursor:pointer; font-size:0.9rem;">
+            <input type="checkbox" checked style="width:18px; height:18px; accent-color:var(--green);" />
+            Daily waste summary report
+          </label>
+          <label style="display:flex; align-items:center; gap:12px; cursor:pointer; font-size:0.9rem;">
+            <input type="checkbox" style="width:18px; height:18px; accent-color:var(--green);" />
+            Weekly AI recommendations
+          </label>
+        </div>
+        <button class="btn-primary" onclick="showToast('Alert settings saved!', false)" style="margin-top:20px;">Save Settings</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+<script>
+  const name = localStorage.getItem('zb_name') || 'Chef';
+  const hostel = localStorage.getItem('zb_hostel') || 'Hostel';
+  document.getElementById('c-name').textContent = name;
+  document.getElementById('c-hostel').textContent = hostel;
+  document.getElementById('c-avatar').textContent = name[0].toUpperCase();
+  document.getElementById('c-greeting').textContent = `Welcome, ${name}! Manage meals and reduce waste today.`;
+
+  function showSection(id) {
+    ['overview','bookings','menu','waste','leftovers','alerts'].forEach(s => {
+      document.getElementById('sec-' + s).style.display = s === id ? 'block' : 'none';
+    });
+    document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+    event.target.closest('a').classList.add('active');
+  }
+
+  function publishMenu() {
+    const b = document.getElementById('menu-breakfast').value;
+    const l = document.getElementById('menu-lunch').value;
+    const s = document.getElementById('menu-snacks').value;
+    const d = document.getElementById('menu-dinner').value;
+    if (!b || !l || !d) { showToast('Please fill in all meal fields.', true); return; }
+    showToast('✅ Menu published! Students have been notified.', false);
+  }
+
+  function logLeftover() {
+    const item = document.getElementById('leftover-item').value.trim();
+    const qty = document.getElementById('leftover-qty').value.trim();
+    if (!item || !qty) { showToast('Please fill in item and quantity.', true); return; }
+    showToast(`✅ ${item} (${qty}) logged successfully!`, false);
+    document.getElementById('leftover-item').value = '';
+    document.getElementById('leftover-qty').value = '';
+  }
+</script>
+</body>
+</html>
